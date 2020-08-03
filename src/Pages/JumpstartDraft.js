@@ -67,6 +67,6 @@ const ConnectedJumpstartDraft = (props) => {
 	)
 }
 
-const JumpstartDraft = connect(mapStateToProps, maDispatchToProps)(ConnectedJumpstartDraft);
+const JumpstartDraft = connect(mapStateToProps, mapDispatchToProps)(ConnectedJumpstartDraft);
 
 export default withStyles(styles)(JumpstartDraft);
