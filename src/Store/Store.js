@@ -5,15 +5,21 @@ import StepsReducer from "./Reducers/StepsReducer";
 import VanguardReducer from "./Reducers/VanguardReducer";
 
 import PairMatch1 from "./Middleware/PairMatch1";
+import PairRemainingMatches from "./Middleware/PairRemainingMatches";
+import UpdateMatch from "./Middleware/UpdateMatch";
+import thunk from "redux-thunk";
 
 const middleware = [
-	PairMatch1
+	thunk,
+	PairMatch1,
+	PairRemainingMatches,
+	UpdateMatch,
 ];
 
 const Store = configureStore({
 	reducer:{
 		players:PlayerReducer,
-		match:MatchReducer,
+		matches:MatchReducer,
 		steps:StepsReducer,
 		vanguards:VanguardReducer,
 	},

@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
-import Theme from '../Theme/Theme';
 import Header from '../Components/Header';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import MatchMini from '../Components/MatchMini';
 
 const mapStateToProps = state => {
 	return {
 		players:state.players,
 		steps:state.steps,
+		matches:state.matches
 	}
 }
 
@@ -20,7 +22,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 	
 }
-const styles = Theme => ({
+const styles = () => ({
 	playerCard:{
 		'margin-bottom':10,
 		padding:10,
@@ -35,34 +37,77 @@ const styles = Theme => ({
 	fullScreen:{
 		width:'100%',
 		height:'100%',
+		backgroundColor:'#052429',
+		'text-align':'center',
+		display:'flex',
+		'flex-direction':'column',
 	},
 	pad:{
 		padding:10,
 	},
 	fullWidth:{
 		'width':'100%'
+	},
+	notes:{
+		color:'white',
+		fontSize:20,
+	},
+	miniMatches:{
+		'flex-grow':1,
+		display:'flex',
+	},
+	leftSide:{
+		width:'50%',
+	},
+	rightSide:{
+		width:'50%',
 	}
 })
 
 const ConnectedJumpstartDraft = (props) => {
 	const { classes } = props;
-	const [ state, setState ] = useState({
+	const [ state ] = useState({
 		location:"JumpstartDraft",
-		players:props.players,
 	})
 	return(
-		<div className={classes.fullScreen + " " + classes.pad}>
+		<div className={classes.fullScreen}>
 			<Header loc={state.location}/>
-			<div>3x Jumpstart Packs</div>
-			<div>
-				Select your favorite 2 packs and shuffle them together to create your draft deck.
+			<div className={classes.notes}>
+				<div>
+					3x Jumpstart Packs
+				</div>
+				<Divider/>
+				<div>
+					Select your favorite 2 packs and shuffle them together to create your draft deck.
+				</div>
+				<Divider/>
+				<div>
+					No substituting. No sideboards.
+				</div>
+				<Divider/>
 			</div>
-			<div>
-				No substituting. No sideboards.
-			</div>
-			<Button color="primary" variant="contained" className={classes.fullWidth}>
+			
+			<Button variant="contained" className={classes.fullWidth} onClick={()=>props.pair()}>
 				Pair Match 1
 			</Button>
+			<div className={classes.miniMatches}>
+				<div className={classes.leftSide}>
+					{Object.keys(props.matches).length === 0 ? "" :
+						props.matches.matchOne.Matches.map((el, index) =>
+							index < 2 ?
+								<MatchMini matchRound="matchOne" key={index} nmb={index} /> : ''
+						)
+					}
+				</div>
+				<div className={classes.rightSide}>
+					{Object.keys(props.matches).length === 0 ? "" :
+						props.matches.matchOne.Matches.map((el, index) =>
+							index > 1 ?
+								<MatchMini matchRound="matchOne" key={index} nmb={index} /> : ''
+						)
+					}
+				</div>
+			</div>
 		</div>
 	)
 }

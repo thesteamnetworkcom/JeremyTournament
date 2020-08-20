@@ -138,8 +138,7 @@ const Steps = {
 			prev:'FinalRound3',
 			forward:'Home',
 		}
-	},
-	Current:"Home",
+	}
 }
 
 export default Steps;

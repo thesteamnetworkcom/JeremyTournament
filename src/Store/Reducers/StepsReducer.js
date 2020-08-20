@@ -1,9 +1,14 @@
-import Steps from '../../Assets/Steps';
+import { SETSTEPS } from '../Actions/StepsActions';
 
-const initialState = Steps.Steps;
+const initialState = {};
 
 function StepReducer(state = initialState, action){
-	return state;
+	switch(action.type){
+		case SETSTEPS:
+			return action.steps;
+		default:
+			return state;
+	}
 }
 
 export default StepReducer;

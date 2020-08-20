@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
-import Theme from '../Theme/Theme';
 import Header from '../Components/Header';
 import Button from '@material-ui/core/Button';
+import produce from 'immer';
 
 const mapStateToProps = state => {
   return { 
@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const styles = Theme => ({
+const styles = () => ({
 	playerCard:{
 		'margin-bottom':10,
 		padding:10,
@@ -38,12 +38,25 @@ const styles = Theme => ({
 	fullScreen:{
 		width:'100%',
 		height:'100%',
+		backgroundColor:'#052429',
 	},
 	pad:{
 		padding:10,
 	},
 	fullWidth:{
 		'width':'100%'
+	},
+	nameWrapper:{
+		'flex-grow':1,
+		display:'flex',
+	},
+	leftSide:{
+		'flex-grow':1,
+		padding:10,
+	},
+	rightSide:{
+		'flex-grow':1,
+		padding:10,
 	}
 })
 const ConnectedNames = (props) => {
@@ -52,37 +65,63 @@ const ConnectedNames = (props) => {
 		location:"Names",
 		players:props.players,
 	})
+	useEffect(()=>{
+		setState(
+			produce(draft=>{
+				draft.players = props.players
+			})
+		)
+	},[props.players])
 	const handleChange = (id, event) => {
-		const tempPlayers = state.players;
-		if(tempPlayers[id-1].charName === undefined){
-			tempPlayers[id-1].charName = '';
-		};
-		tempPlayers[id-1].charName = event.target.value;
-		setState({
-			...state,
-			players:tempPlayers
-		});
+		event.persist();
+		setState(
+			produce(draft => {
+				for(let i = 0; i < draft.players.length; i++){
+					if(draft.players[i].id === id){
+						draft.players[i].charName = event.target.value;
+					}
+				}
+			})
+		);
 	}
 	return(
-		<div className={classes.fullScreen + " " + classes.pad}>
+		<div className={classes.fullScreen}>
 			<Header loc={state.location}/>
-			{state.players.map((el,index) => (
-				<Card className={classes.playerCard} key={index}>
-					<span>{el.name}</span>
-					<TextField 
-						label="Character Name" 
-						variant="outlined" 
-						value={
-							el.charName != undefined ? el.charName : ''
-						}
-						onChange={(event)=>handleChange(el.id, event)}
-					/>
-				</Card>
-			))}
-			<Button color="primary" variant="contained" className={classes.fullWidth} onClick={() => props.submit(state.players)}>
+			<div className={classes.nameWrapper}>
+				<div className={classes.leftSide}>
+					{Array.isArray(state.players) !== false ?state.players.map((el,index) => 
+						index < 4 ? <Card className={classes.playerCard} key={index}>
+							<span>{el.name}</span>
+							<TextField 
+								label="Character Name" 
+								variant="outlined" 
+								value={
+									el.charName !== undefined ? el.charName : ''
+								}
+								onChange={(event)=>handleChange(el.id, event)}
+							/>
+						</Card> : ''
+					):''}
+				</div>
+				<div className={classes.rightSide}>
+					{Array.isArray(state.players) !== false ?state.players.map((el,index) => 
+						index > 3 ? <Card className={classes.playerCard} key={index}>
+							<span>{el.name}</span>
+							<TextField 
+								label="Character Name" 
+								variant="outlined" 
+								value={
+									el.charName !== undefined ? el.charName : ''
+								}
+								onChange={(event)=>handleChange(el.id, event)}
+							/>
+						</Card> : ''
+					):''}
+				</div>
+			</div>
+			<Button variant="contained" className={classes.fullWidth} onClick={() => props.submit(state.players)}>
 				Submit
 			</Button>
-
 		</div>
 	)
 }

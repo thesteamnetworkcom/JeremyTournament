@@ -1,11 +1,12 @@
-import React from 'react';
-import Theme from './Theme/Theme';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
 } from "react-router-dom";
+import Standings from './Pages/Standings';
 import Names from './Pages/Names';
 import Home from './Pages/Home';
 import Vanguards from './Pages/Vanguards';
@@ -29,16 +30,36 @@ import MatchTwo from './Pages/MatchTwo';
 import MysteryDraft from './Pages/MysteryDraft';
 import Podium from './Pages/Podium';
 import TeamDraft from './Pages/TeamDraft';
+import fetchNames from './Store/Actions/PlayerActions';
+import fetchSteps from './Store/Actions/StepsActions';
+import fetchVanguards from './Store/Actions/VanguardActions';
+import fetchMatches from './Store/Actions/MatchActions';
 
-const styles = Theme => ({
+const styles = () => ({
 	fullScreen:{
 		width:'100%',
 		height:'100%',
 	},
 })
 
+const mapDispatchToProps = (dispatch) => {
+	return {
+		getNames:()=>dispatch(fetchNames()),
+		getSteps:()=>dispatch(fetchSteps()),
+		getVanguards:()=>dispatch(fetchVanguards()),
+		getMatches:()=>dispatch(fetchMatches())
+	}
+}
+
 const App = (props) => {
 	const { classes } = props;
+	useEffect(()=>{
+		{console.log("here")}
+		props.getNames();
+		props.getSteps();
+		props.getVanguards();
+		props.getMatches();
+	},[props]);
   	return (
 		<Router>
     		<div className={classes.fullScreen + " App "}>
@@ -109,6 +130,9 @@ const App = (props) => {
 					<Route path="/podium">
 						<Podium />
 					</Route>
+					<Route path="/standings">
+						<Standings />
+					</Route>
 					<Route path="/">
 						<Home />
 					</Route>
@@ -118,4 +142,4 @@ const App = (props) => {
   	);
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(connect(null,mapDispatchToProps)(App));

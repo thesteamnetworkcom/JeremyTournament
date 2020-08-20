@@ -1,9 +1,14 @@
-import Vanguards from '../../Assets/Vanguards';
+import { SETVANGUARDS } from '../Actions/VanguardActions';
 
-const initialState = Vanguards.Vanguards;
+const initialState = {};
 
 function VanguardReducer(state = initialState, action){
-	return state;
+	switch(action.type){
+		case SETVANGUARDS:
+			return action.vanguards;
+		default:
+			return state;
+	}
 }
 
 export default VanguardReducer;
