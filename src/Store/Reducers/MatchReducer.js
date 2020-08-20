@@ -14,6 +14,17 @@ const initialState = {
 
 function MatchReducer(state = initialState, action){
 	switch(action.type){
+		case "RESET":
+			var newMatchesR = {};
+			fetch(API + '/data/matches',{
+				method:'POST',
+				headers:{
+					'Accept':'applicaton/json',
+					'Content-Type':'application/json'
+				},
+				body: JSON.stringify(newMatchesR)
+			});
+			return newMatchesR;
 		case PAIRFINALSROUND3:
 			var newMatches = produce(state, draft => {
 				draft.finalsRoundThree = {};

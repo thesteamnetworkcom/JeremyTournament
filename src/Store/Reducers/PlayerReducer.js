@@ -12,6 +12,25 @@ const initialState = {};
 
 function PlayerReducer(state = initialState, action){
 	switch(action.type){
+		case "RESET":
+			let resetState = produce(state, draft=>{
+				for(let i = 0; i < draft.length; i++){
+					draft[i].charName='';
+					draft[i].vanguardID='';
+					draft[i].FirstPairId='';
+					draft[i].points='';
+					draft[i].selected='';
+				}
+			})
+			fetch(API + '/data/players',{
+				method:'POST',
+				headers:{
+					'Accept':'application/json',
+					'Content-Type':'application/json'
+				},
+				body:JSON.stringify(resetState)
+			})
+			return resetState;
 		case SELECTPLAYERS:
 			let SelectPlayersState = produce(state, draft=>{
 				for(let i = 0; i < draft.length; i++){

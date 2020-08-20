@@ -13,6 +13,13 @@ const mapStateToProps = state => {
 		steps:state.steps,
 	};
 }
+const mapDispatchToProps = (dispatch) => {
+	return {
+		reset: () => dispatch({
+			type:"RESET",
+		})
+	}
+}
 
 const styles = () => ({
 	topBar:{
@@ -89,6 +96,9 @@ const ConnectedHome = (props) => {
 					<Button className={classes.marginTop} variant="contained" component={Link} to={"/"+props.steps[props.steps[state.location].forward].name}>
 					Let's Go
 				</Button>}
+					<Button className={classes.marginTop} variant="contained" onClick={()=>props.reset()}>
+						Reset
+					</Button>
 			</div>
 			<div className={classes.title}>
 				<div>
@@ -107,6 +117,6 @@ const ConnectedHome = (props) => {
 	)
 }
 
-const Home = connect(mapStateToProps)(ConnectedHome);
+const Home = connect(mapStateToProps, mapDispatchToProps)(ConnectedHome);
 
 export default withStyles(styles)(Home);
