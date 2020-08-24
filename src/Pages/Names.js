@@ -6,6 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Header from '../Components/Header';
 import Button from '@material-ui/core/Button';
 import produce from 'immer';
+import Theme from '../Theme/Theme';
 
 const mapStateToProps = state => {
   return { 
@@ -23,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const styles = () => ({
+const styles = (Theme) => ({
 	playerCard:{
 		'margin-bottom':10,
 		padding:10,
@@ -33,6 +34,9 @@ const styles = () => ({
 		},
 		'&> span':{
 			'width':80,
+		},
+		[Theme.breakpoints.down('sm')]:{
+			height:'25%',
 		}
 	},
 	fullScreen:{
@@ -49,14 +53,27 @@ const styles = () => ({
 	nameWrapper:{
 		'flex-grow':1,
 		display:'flex',
+		[Theme.breakpoints.down('sm')]:{
+			'flex-direction':'column',
+		}
 	},
 	leftSide:{
 		'flex-grow':1,
 		padding:10,
+		
+		[Theme.breakpoints.down('sm')]:{
+			backgroundColor:'#052429',
+			'padding-bottom':0,
+		}
 	},
 	rightSide:{
 		'flex-grow':1,
 		padding:10,
+		
+		[Theme.breakpoints.down('sm')]:{
+			backgroundColor:'#052429',
+			'padding-top':0,
+		}
 	}
 })
 const ConnectedNames = (props) => {

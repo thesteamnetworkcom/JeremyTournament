@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import { Link } from 'react-router-dom';
 import Skyline from '../Assets/BackgroundImages/skyline.png';
+import Theme from '../Theme/Theme';
 
 const mapStateToProps = state => {
 	return {
@@ -13,7 +14,7 @@ const mapStateToProps = state => {
 	}
 };
 
-const styles = () => ({
+const styles = (Theme) => ({
 	headerWrapper:{
 		display:'flex',
 		'flex-direction':'column',
@@ -42,10 +43,13 @@ const styles = () => ({
 	skylineimg:{
 		width:'100%',
 		height:'50%',
-		bottom:'-20px',
+		bottom:'-100px',
 		position:'absolute',
 		backgroundImage: `url(${Skyline})`,
 		backgroundSize: 'contain',
+		[Theme.breakpoints.down('sm')]:{
+			bottom:'0px',
+		}
 	},
 	centerCont:{
 		display:'flex',
@@ -55,6 +59,9 @@ const styles = () => ({
 	linkhover:{
 		color:'white',
 		minWidth:'15%',
+		[Theme.breakpoints.down('sm')]:{
+			width:'25%',
+		}
 	},
 	linkColor:{
 		color:'white',
@@ -66,6 +73,9 @@ const styles = () => ({
 		borderRadius:'10px',
 		color:'white',
 		borderWidth:'1px',
+		[Theme.breakpoints.down('sm')]:{
+			fontSize:'20px',
+		}
 	},
 	stepSkip:{
 		'border-radius':0,
@@ -89,51 +99,51 @@ const ConnectedHeader = (props) => {
   	};
 	return(
 		<>
-		<Modal
-        	open={open}
-        	onClose={handleClose}
-        	aria-labelledby="simple-modal-title"
-        	aria-describedby="simple-modal-description"
-      	>
-        	<>
-			{Object.keys(props.steps).map((key,index) => 
-				<Card className={classes.stepSkip} component={Link} to={"/"+props.steps[key].name}  key={index}>
-					{props.steps[key].displayName}
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="simple-modal-title"
+				aria-describedby="simple-modal-description"
+			>
+				<>
+				{Object.keys(props.steps).map((key,index) => 
+					<Card className={classes.stepSkip} component={Link} to={"/"+props.steps[key].name}  key={index}>
+						{props.steps[key].displayName}
+					</Card>
+				)}
+				<Card className={classes.stepSkip} component={Link} to={"/standings"}>
+					Standings
 				</Card>
-			)}
-			<Card className={classes.stepSkip} component={Link} to={"/standings"}>
-				Standings
-			</Card>
-			</>
-      	</Modal>
-		<div className={classes.headerWrapper}>
-			<div className={classes.skylineimg} src={Skyline}></div>
+				</>
+			</Modal>
+
+			<div className={classes.headerWrapper}>
+				<div className={classes.skylineimg} src={Skyline}></div>
 				<div className={classes.linksWrapper}>
-				{props.steps[props.loc] !== undefined ? 
-					<>
-						<div className={classes.centerCont + ' ' + classes.linkhover}>
-							<Link className={classes.linkColor} to={"/"+props.steps[props.steps[props.loc].prev].name}>
-								<h2>Back</h2>
-								<h5>({props.steps[props.steps[props.loc].prev].displayName})</h5>
-							</Link>
-						</div>
-						<div className={classes.centerCont}>
-							<div className={classes.RoundMenu} onClick={handleOpen}>Round Menu</div>
-						</div>
-						<div className={classes.centerCont + ' ' + classes.linkhover}>
-							<Link className={classes.linkColor} to={"/"+props.steps[props.steps[props.loc].forward].name}>
-								<h2>Advance</h2>
-								<h5>({props.steps[props.steps[props.loc].forward].displayName})</h5>
-							</Link>
-						</div>
-					</>
-				: ''}
+					{props.steps[props.loc] !== undefined ? 
+						<>
+							<div className={classes.centerCont + ' ' + classes.linkhover}>
+								<Link className={classes.linkColor} to={"/"+props.steps[props.steps[props.loc].prev].name}>
+									<h2>Back</h2>
+									<h5>({props.steps[props.steps[props.loc].prev].displayName})</h5>
+								</Link>
+							</div>
+							<div className={classes.centerCont}>
+								<div className={classes.RoundMenu} onClick={handleOpen}>Round Menu</div>
+							</div>
+							<div className={classes.centerCont + ' ' + classes.linkhover}>
+								<Link className={classes.linkColor} to={"/"+props.steps[props.steps[props.loc].forward].name}>
+									<h2>Advance</h2>
+									<h5>({props.steps[props.steps[props.loc].forward].displayName})</h5>
+								</Link>
+							</div>
+						</> :
+					''}
 				</div>
-			<div className={classes.centeredLabel}>
-				<h2>{props.loc}</h2>
+				<div className={classes.centeredLabel}>
+					<h2>{props.loc}</h2>
+				</div>
 			</div>
-		</div>
-		
 		</>
 	)
 }

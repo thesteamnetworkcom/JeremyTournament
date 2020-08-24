@@ -6,6 +6,8 @@ import Button from '@material-ui/core/Button';
 import Image from '../Assets/BackgroundImages/Red_Background.jpg';
 import Skyline from '../Assets/BackgroundImages/skyline.png';
 import { Link } from 'react-router-dom';
+import Theme from '../Theme/Theme';
+import NameDisplay from '../Components/NameDisplay';
 
 const mapStateToProps = state => {
 	return { 
@@ -21,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-const styles = () => ({
+const styles = (Theme) => ({
 	topBar:{
 		height:'50%',
 		width:'100%',
@@ -79,6 +81,12 @@ const styles = () => ({
 		position:'absolute',
 		backgroundImage: `url(${Skyline})`,
 		backgroundSize: 'contain',
+	},
+	titlex:{
+		textAlign:'center',
+		[Theme.breakpoints.down('sm')]:{
+			fontSize:30,
+		}
 	}
 })
 
@@ -108,7 +116,7 @@ const ConnectedHome = (props) => {
 				<div>
 					{Object.keys(props.players).length === 0 ? "" :props.players.map((el,index) => (
 						<div key={index}>
-							<span className={classes.twentypx}>{el.name}</span>
+							<NameDisplay key={index} name={el.name} />
 						</div>
 					))}
 				</div>
