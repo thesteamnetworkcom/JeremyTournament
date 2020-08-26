@@ -3,11 +3,11 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 
-const styles = () => ({
+const useStyles = makeStyles({
 	selectSize:{
-		width:'35%',
+		transform:props=>props.skewPos ? 'skewX(-20deg)' : 'skewX(20deg)',
 		padding:10,
 		color:'white',
 		borderColor:'white',
@@ -17,32 +17,11 @@ const styles = () => ({
         '&:after': {
            borderColor:'white',
         },
-	},
-	setColor:{
-		color:'white',
-		borderColor:'white',
-		'&:before': {
-            borderColor:'white',
-        },
-        '&:after': {
-            borderColor:'white',
-        },
-	},
-	setColor2:{
-		color:'white',
-		borderColor:'white',
-		'&:before': {
-            borderColor:'white',
-        },
-        '&:after': {
-            borderColor:'white',
-        },
-	},
-	
+	},	
 })
 
 const PlayerSelect = (props) => {
-	const { classes } = props;
+	const classes = useStyles(props);
 	function checkForVal(){
 		for(let i = 0; i < props.players.length; i++){
 			if(props.players[i].selected === props.val){
@@ -52,10 +31,7 @@ const PlayerSelect = (props) => {
 		return '';
 	}
 	return(
-		<FormControl className={classes.selectSize} variant="outlined" disabled={props.disabled}>
-			<InputLabel className={classes.setColor2} id={"PlayerSelectLabel"+props.val}>
-				Player
-			</InputLabel>
+		<FormControl className={classes.selectSize} disabled={props.disabled}>
 			<Select
 				className={classes.setColor}
 				labelId={"PlayerSelectLabel"+props.val}
@@ -85,4 +61,4 @@ const PlayerSelect = (props) => {
 	)
 }
 
-export default withStyles(styles)(PlayerSelect);
+export default PlayerSelect;

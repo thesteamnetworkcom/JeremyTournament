@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
 import Header from '../Components/Header';
 import ConspiracyPodLarge from '../Components/ConspiracyPodLarge';
+import ConspiracyPodLargeV2 from '../Components/ConspiracyPodLargeV2';
 
 const mapStateToProps = state => {
 	return {
@@ -27,6 +29,9 @@ const styles = () => ({
 	wrapper:{
 		'flex-grow':1,
 		color:'white',
+		display:'flex',
+		'flex-direction':'column',
+		'align-items':'stretch',
 	}
 })
 
@@ -41,12 +46,12 @@ const ConnectedConspiracyPod = (props) => {
 			<div className={classes.wrapper}>
 			{Object.keys(props.players).length === 0 || Object.keys(props.matches).length === 0 ? "" :
 			<>
-			<ConspiracyPodLarge index={0} players={props.players} group={
+			<ConspiracyPodLargeV2 index={0} players={props.players} group={
 					[props.matches.conspiracyPod.Matches[0].player1,
 					 props.matches.conspiracyPod.Matches[0].player2,
 					 props.matches.conspiracyPod.Matches[0].player3,
 					 props.matches.conspiracyPod.Matches[0].player4]} match={props.matches.conspiracyPod.Matches[0]}/>
-			<ConspiracyPodLarge index={1} players={props.players} group={
+			<ConspiracyPodLargeV2 index={1} players={props.players} group={
 					[props.matches.conspiracyPod.Matches[1].player1,
 					 props.matches.conspiracyPod.Matches[1].player2,
 					 props.matches.conspiracyPod.Matches[1].player3,

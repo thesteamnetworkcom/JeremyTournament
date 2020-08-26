@@ -98,7 +98,7 @@ const ConnectedHome = (props) => {
 	return(
 		<div className={classes.fullScreen}>
 			<div className={classes.topBar}>
-				<span>Magic Bonanza Two!: Bachelor Boogaloo</span>
+				<span className={classes.titlex}>Magic Bonanza Two!: Bachelor Boogaloo</span>
 				<div className={classes.skylineimg} src={Skyline}></div>
 				{Object.keys(props.steps).length === 0 ? "" :
 					<Button className={classes.marginTop} variant="contained" component={Link} to={"/"+props.steps[props.steps[state.location].forward].name}>
